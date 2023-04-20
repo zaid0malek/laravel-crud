@@ -24,14 +24,6 @@ class TestApiController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created employee
      *
      * @param Request $request
@@ -48,10 +40,9 @@ class TestApiController extends Controller
             $employee->department = $request->department;
             $result = $employee->save();
 
-            if($result) {
+            if ($result) {
                 return ["result" => "Data Saved"];
-            }
-            else {
+            } else {
                 return ["result" => "Failed"];
             }
         } catch (\Throwable $th) {
@@ -74,14 +65,6 @@ class TestApiController extends Controller
         } catch (\Throwable $th) {
             return $th->getMessage();
         }
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(int $id)
-    {
-        //
     }
 
     /**
@@ -110,7 +93,6 @@ class TestApiController extends Controller
                 }
                 else {
                     return ["result"=>"Updation Failed"];
-
                 }
             }
         } catch (\Throwable $th) {

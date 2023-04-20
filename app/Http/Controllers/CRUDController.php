@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Data;
 use Illuminate\Http\Request;
-use App\Http\Requests\StoreUser;
+use App\Http\Requests\StoreUserRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 class CRUDController extends Controller
@@ -29,7 +29,7 @@ class CRUDController extends Controller
     public function create(): View
     {
         $url = url('/crud');
-        $method='post';
+        $method = 'post';
         $data = compact('url','method');
         return view('home')->with($data);
     }
@@ -40,20 +40,12 @@ class CRUDController extends Controller
      * @param StoreUser $request
      * @return RedirectResponse
      */
-    public function store(StoreUser $request): RedirectResponse
+    public function store(StoreUserRequest $request): RedirectResponse
     {
         $input = $request->except('_token','_method');
         $user = Data::create($input);
 
         return redirect('crud');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show($id)
-    {
-        //
     }
 
     /**
@@ -66,7 +58,6 @@ class CRUDController extends Controller
     {
         $user = Data::find($id);
         if (empty($user)) {
-            // $user->delete();
             return redirect('crud');
         } else {
             $url = url('/crud')."/".$id;
