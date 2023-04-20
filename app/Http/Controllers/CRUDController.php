@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Data;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreUser;
-
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 class CRUDController extends Controller
 {
     /**
@@ -23,9 +24,9 @@ class CRUDController extends Controller
     /**
      * Show the form for creating a new user
      *
-     * @return boolean
+     * @return View
      */
-    public function create(): bool
+    public function create(): View
     {
         $url = url('/crud');
         $method='post';
@@ -37,9 +38,9 @@ class CRUDController extends Controller
      * Store a newly created user.
      *
      * @param StoreUser $request
-     * @return boolean
+     * @return RedirectResponse
      */
-    public function store(StoreUser $request): bool
+    public function store(StoreUser $request): RedirectResponse
     {
         $input = $request->except('_token','_method');
         $user = Data::create($input);
@@ -59,12 +60,12 @@ class CRUDController extends Controller
      * Show the form for editing the specified user
      *
      * @param integer $id
-     * @return boolean
+     * @return RedirectResponse
      */
-    public function edit(int $id): bool
+    public function edit(int $id): RedirectResponse |View
     {
         $user = Data::find($id);
-        if (!empty($user)) {
+        if (empty($user)) {
             // $user->delete();
             return redirect('crud');
         } else {
@@ -80,9 +81,9 @@ class CRUDController extends Controller
      *
      * @param Request $request
      * @param integer $id
-     * @return boolean
+     * @return RedirectResponse
      */
-    public function update(Request $request, int $id): bool
+    public function update(Request $request, int $id): RedirectResponse
     {
         try {
             $user = Data::find($id);
@@ -105,9 +106,9 @@ class CRUDController extends Controller
      * Remove the specified user
      *
      * @param integer $id
-     * @return boolean
+     * @return RedirectResponse
      */
-    public function destroy(int $id): bool
+    public function destroy(int $id): RedirectResponse
     {
         $user = Data::find($id);
         if (!is_null($user)) {
