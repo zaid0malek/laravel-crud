@@ -16,9 +16,13 @@ class CRUDController extends Controller
      */
     public function index()
     {
-        $users = Data::all();
-        $data = compact('users');
-        return view('show')->with($data);
+        try{
+            $users = Data::all();
+            $data = compact('users');
+            return view('show')->with($data);
+        } catch (\Throwable $th) {
+            return redirect('crud')->with($th->getMessage());
+        }
     }
 
     /**
@@ -28,10 +32,14 @@ class CRUDController extends Controller
      */
     public function create(): View
     {
-        $url = url('/crud');
-        $method = 'post';
-        $data = compact('url','method');
-        return view('home')->with($data);
+        try{
+            $url = url('/crud');
+            $method = 'post';
+            $data = compact('url','method');
+            return view('home')->with($data);
+        } catch (\Throwable $th) {
+            return redirect('crud')->with($th->getMessage());
+        }
     }
 
     /**
@@ -42,10 +50,13 @@ class CRUDController extends Controller
      */
     public function store(StoreUserRequest $request): RedirectResponse
     {
-        $input = $request->except('_token','_method');
-        $user = Data::create($input);
-
-        return redirect('crud');
+        try{
+            $input = $request->except('_token','_method');
+            $user = Data::create($input);
+            return redirect('crud');
+        } catch (\Throwable $th) {
+            return redirect('crud')->with($th->getMessage());
+        }
     }
 
     /**
@@ -56,14 +67,18 @@ class CRUDController extends Controller
      */
     public function edit(int $id): RedirectResponse |View
     {
-        $user = Data::find($id);
-        if (empty($user)) {
-            return redirect('crud');
-        } else {
-            $url = url('/crud')."/".$id;
-            $method = 'put';
-            $data = compact('user','url','method');
-            return view('home')->with($data);
+        try{
+            $user = Data::find($id);
+            if (empty($user)) {
+                return redirect('crud');
+            } else {
+                $url = url('/crud')."/".$id;
+                $method = 'put';
+                $data = compact('user','url','method');
+                return view('home')->with($data);
+            }
+        } catch (\Throwable $th) {
+            return redirect('crud')->with($th->getMessage());
         }
     }
 
@@ -78,14 +93,12 @@ class CRUDController extends Controller
     {
         try {
             $user = Data::find($id);
-            if (empty($user)) {
-                return redirect('crud');
-            } else {
+            if (!empty($user)) {
                 $user->name = $request['name'];
                 $user->email = $request['email'];
                 $user->save();
-                return redirect('crud');
             }
+            return redirect('crud');
         } catch (\Throwable $th) {
             return redirect('crud')->with($th->getMessage());
         }
@@ -100,10 +113,14 @@ class CRUDController extends Controller
      */
     public function destroy(int $id): RedirectResponse
     {
-        $user = Data::find($id);
-        if (!is_null($user)) {
-            $user->delete();
+        try{
+            $user = Data::find($id);
+            if (!is_null($user)) {
+                $user->delete();
+            }
+            return redirect('crud');
+        } catch (\Throwable $th) {
+            return redirect('crud')->with($th->getMessage());
         }
-        return redirect('crud');
     }
 }

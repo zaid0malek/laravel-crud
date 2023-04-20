@@ -81,17 +81,12 @@ class TestApiController extends Controller
         try {
             $employee = Employee::find($id);
             if (empty($employee)) {
-                return ["result"=>"User not found"];
+                return ["result" => "User not found"];
             } else {
                 $employee->name = $request->name;
                 $employee->department = $request->department;
                 $result = $employee->save();
-
-                if ($result) {
-                    return ["result"=>"Data Updated"];
-                } else {
-                    return ["result"=>"Updation Failed"];
-                }
+                return $result ? ["result"=>"Data Updated"] : ["result"=>"Updation Failed"];
             }
         } catch (\Throwable $th) {
             return $th->getMessage();
@@ -112,12 +107,7 @@ class TestApiController extends Controller
             $employee = Employee::find($id);
             if (!empty($employee)) {
                 $result = $employee->delete();
-                if ($result) {
-                    return ["result"=>"Employee Deleted Successfully"];
-                }
-                else {
-                    return ["result"=>"Failed"];
-                }
+                return $result ? ["result"=>"Employee Deleted Successfully"] : ["result"=>"Failed"];
             } else {
                 return ["result"=>"User not found"];
             }
