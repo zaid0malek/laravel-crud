@@ -79,7 +79,6 @@ class CRUDController extends Controller
         try {
             $user = Data::find($id);
             if (empty($user)) {
-                // $user->delete();
                 return redirect('crud');
             } else {
                 $user->name = $request['name'];
