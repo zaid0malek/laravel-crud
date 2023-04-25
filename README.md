@@ -13,7 +13,7 @@ GUI:
 
 API: 
     
-    This Module can be accessed using http://urlapi//crudapi (e.g: http://127.0.0.1:8000/api/crudapi)
+    This Module can be accessed using http://url/api/crudapi (e.g: http://127.0.0.1:8000/api/crudapi)
     
     which returns list of all employees and we can add or update users from this API 
     It accepts GET, POST, PUT and DELETE methods  

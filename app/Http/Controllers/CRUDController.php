@@ -115,7 +115,7 @@ class CRUDController extends Controller
     {
         try{
             $user = Data::find($id);
-            if (!is_null($user)) {
+            if (!empty($user)) {
                 $user->delete();
             }
             return redirect('crud');
