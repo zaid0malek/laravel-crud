@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\StoreUserRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
+
 class CRUDController extends Controller
 {
     /**
@@ -16,7 +17,7 @@ class CRUDController extends Controller
      */
     public function index()
     {
-        try{
+        try {
             $users = Data::all();
             $data = compact('users');
             return view('show')->with($data);
@@ -32,10 +33,10 @@ class CRUDController extends Controller
      */
     public function create(): View
     {
-        try{
+        try {
             $url = url('/crud');
             $method = 'post';
-            $data = compact('url','method');
+            $data = compact('url', 'method');
             return view('home')->with($data);
         } catch (\Throwable $th) {
             return redirect('crud')->with($th->getMessage());
@@ -50,8 +51,8 @@ class CRUDController extends Controller
      */
     public function store(StoreUserRequest $request): RedirectResponse
     {
-        try{
-            $input = $request->except('_token','_method');
+        try {
+            $input = $request->except('_token', '_method');
             $user = Data::create($input);
             return redirect('crud');
         } catch (\Throwable $th) {
@@ -65,16 +66,16 @@ class CRUDController extends Controller
      * @param integer $id
      * @return RedirectResponse
      */
-    public function edit(int $id): RedirectResponse |View
+    public function edit(int $id): RedirectResponse|View
     {
-        try{
+        try {
             $user = Data::find($id);
             if (empty($user)) {
                 return redirect('crud');
             } else {
-                $url = url('/crud')."/".$id;
+                $url = url('/crud') . "/" . $id;
                 $method = 'put';
-                $data = compact('user','url','method');
+                $data = compact('user', 'url', 'method');
                 return view('home')->with($data);
             }
         } catch (\Throwable $th) {
@@ -113,7 +114,7 @@ class CRUDController extends Controller
      */
     public function destroy(int $id): RedirectResponse
     {
-        try{
+        try {
             $user = Data::find($id);
             if (!empty($user)) {
                 $user->delete();

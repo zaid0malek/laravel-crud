@@ -102,7 +102,7 @@ class TestApiController extends Controller
                 $result = $employee->delete();
                 return $result ? ["result" => "Employee Deleted Successfully"] : ["result" => "Failed"];
             }
-            return ["result"=>"User not found"];
+            return ["result" => "User not found"];
         } catch (\Throwable $th) {
             return $th->getMessage();
         }
