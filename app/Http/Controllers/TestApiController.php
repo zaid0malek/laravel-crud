@@ -31,7 +31,6 @@ class TestApiController extends Controller
      * or
      * @return array
      */
-
     public function store(Request $request): string | array
     {
         try {
@@ -39,12 +38,7 @@ class TestApiController extends Controller
             $employee->name = $request->name;
             $employee->department = $request->department;
             $result = $employee->save();
-
-            if ($result) {
-                return ["result" => "Data Saved"];
-            } else {
-                return ["result" => "Failed"];
-            }
+            return $result ? ["result" => "Data Saved"] : ["result" => "Failed"];
         } catch (\Throwable $th) {
             return $th->getMessage();
         }
