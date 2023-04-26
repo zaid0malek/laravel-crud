@@ -13,5 +13,6 @@ class Employee extends Model
 
     protected $table="employees";
     protected $primaryKey="id";
+    protected $hidden =["deleted_at"];
 
 }

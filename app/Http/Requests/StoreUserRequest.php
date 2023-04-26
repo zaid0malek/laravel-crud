@@ -23,12 +23,26 @@ class StoreUserRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'name' => 'required|alpha:ascii',
+        dd(app('route')->getCurrentRoute()->getName());
+        return app('router')->getCurrentRoute()->getName() == 'updateUser' ? [
+            'name' => 'required|regex:/^[a-zA-Z][a-zA-Z\\s]+$/',
             'email' => 'required|email',
-            'password' => 'required|confirmed',
-            'password_confirmation' => 'required'
-        ];
+        ] : [
+                'name' => 'required|regex:/^[a-zA-Z][a-zA-Z\\s]+$/',
+                'email' => 'required|email',
+                'password' => 'required|confirmed',
+                'password_confirmation' => 'required'
+            ];
+    }
+
+    /**
+     * Validation message for name regex
+     *
+     * @return array
+     */
+    public function messages(): array
+    {
+        return ["name.regex" => "Name can only contain alphabets and space"];
     }
 
 }

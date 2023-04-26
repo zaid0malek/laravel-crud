@@ -10,11 +10,9 @@ class TestApiController extends Controller
     /**
      * Display a listing of all employeees
      *
-     * @return string
-     * or
-     * @return array
+     * @return string|array
      */
-    public function index(): string | array
+    public function index(): string|array
     {
         try {
             return Employee::all();
@@ -27,11 +25,9 @@ class TestApiController extends Controller
      * Store a newly created employee
      *
      * @param Request $request
-     * @return string
-     * or
-     * @return array
+     * @return string|array
      */
-    public function store(Request $request): string | array
+    public function store(Request $request): string|array
     {
         try {
             $employee = new Employee;
@@ -48,14 +44,13 @@ class TestApiController extends Controller
      * Display the specified Employee
      *
      * @param integer $id
-     * @return string
-     * or
-     * @return array
+     * @return string|array
      */
-    public function show(int $id): string | array
+    public function show(int $id): string|array
     {
         try {
-            return Employee::find($id);
+            $employee = Employee::find($id);
+            return empty($employee) ? "User Not Found" : Employee::find($id);
         } catch (\Throwable $th) {
             return $th->getMessage();
         }
@@ -66,11 +61,9 @@ class TestApiController extends Controller
      *
      * @param Request $request
      * @param integer $id
-     * @return string
-     * or
-     * @return array
+     * @return string|array
      */
-    public function update(Request $request, int $id): string | array
+    public function update(Request $request, int $id): string|array
     {
         try {
             $employee = Employee::find($id);
@@ -90,11 +83,9 @@ class TestApiController extends Controller
      * Remove the specified Employee
      *
      * @param integer $id
-     * @return string
-     * or
-     * @return array
+     * @return string|array
      */
-    public function destroy(int $id): string | array
+    public function destroy(int $id): string|array
     {
         try {
             $employee = Employee::find($id);

@@ -46,14 +46,15 @@ class CRUDController extends Controller
     /**
      * Store a newly created user.
      *
-     * @param StoreUser $request
+     * @param StoreUserRequest $request
      * @return RedirectResponse
      */
     public function store(StoreUserRequest $request): RedirectResponse
     {
         try {
             $input = $request->except('_token', '_method');
-            $user = Data::create($input);
+            $input['password'] = md5($input['password']);
+            Data::create($input);
             return redirect('crud');
         } catch (\Throwable $th) {
             return redirect('crud')->with($th->getMessage());
@@ -70,27 +71,26 @@ class CRUDController extends Controller
     {
         try {
             $user = Data::find($id);
-            if (empty($user)) {
-                return redirect('crud');
-            } else {
+            if (!empty($user)) {
                 $url = url('/crud') . "/" . $id;
                 $method = 'put';
                 $data = compact('user', 'url', 'method');
                 return view('home')->with($data);
             }
+            return redirect('crud');
         } catch (\Throwable $th) {
             return redirect('crud')->with($th->getMessage());
         }
     }
 
     /**
-     * Update the specified resource in storage
+     * 'Update the specified resource in storage'
      *
-     * @param Request $request
+     * @param StoreUserRequest $request
      * @param integer $id
      * @return RedirectResponse
      */
-    public function update(Request $request, int $id): RedirectResponse
+    public function update(StoreUserRequest $request, int $id): RedirectResponse
     {
         try {
             $user = Data::find($id);
