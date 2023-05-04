@@ -18,9 +18,6 @@
             <li class="nav-item" role="presentation">
                <a href="{{url('/')}}/crud" class="nav-link @if($active=='show') {{'active'}} @endif" data-bs-toggle="tab" aria-current="page">Show Data</a>
             </li>
-            <li class="nav-item" role="presentation">
-               <a href="#" class="nav-link disabled" data-bs-toggle="tab">Disabled</a>
-            </li>
          </ul>
       </nav>
    </header>

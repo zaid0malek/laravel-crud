@@ -25,3 +25,5 @@ Route::resource('crud', CRUDController::class,[
         'update'=>'updateUser'
     ]
 ]);
+
+Route::view('error', 'error');;

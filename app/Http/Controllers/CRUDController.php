@@ -13,16 +13,16 @@ class CRUDController extends Controller
     /**
      * Display a listing all users
      *
-     * @return void
+     * @return View
      */
-    public function index()
+    public function index(): View
     {
         try {
             $users = Data::all();
             $data = compact('users');
             return view('show')->with($data);
         } catch (\Throwable $th) {
-            return redirect('crud')->with($th->getMessage());
+            return view('error')->with("error", $th->getMessage());
         }
     }
 
@@ -39,7 +39,7 @@ class CRUDController extends Controller
             $data = compact('url', 'method');
             return view('home')->with($data);
         } catch (\Throwable $th) {
-            return redirect('crud')->with($th->getMessage());
+            return view('error')->with("error", $th->getMessage());
         }
     }
 
@@ -57,7 +57,7 @@ class CRUDController extends Controller
             Data::create($input);
             return redirect('crud');
         } catch (\Throwable $th) {
-            return redirect('crud')->with($th->getMessage());
+            return redirect('error')->with("error", $th->getMessage());
         }
     }
 
@@ -79,7 +79,7 @@ class CRUDController extends Controller
             }
             return redirect('crud');
         } catch (\Throwable $th) {
-            return redirect('crud')->with($th->getMessage());
+            return view('error')->with("error", $th->getMessage());
         }
     }
 
@@ -95,13 +95,11 @@ class CRUDController extends Controller
         try {
             $user = Data::find($id);
             if (!empty($user)) {
-                $user->name = $request['name'];
-                $user->email = $request['email'];
-                $user->save();
+                $user->update(["name" => $request['name'], "email" => $request['email']]);
             }
             return redirect('crud');
         } catch (\Throwable $th) {
-            return redirect('crud')->with($th->getMessage());
+            return redirect('error')->with("error", $th->getMessage());
         }
 
     }
@@ -121,7 +119,7 @@ class CRUDController extends Controller
             }
             return redirect('crud');
         } catch (\Throwable $th) {
-            return redirect('crud')->with($th->getMessage());
+            return redirect('error')->with("error", $th->getMessage());
         }
     }
 }

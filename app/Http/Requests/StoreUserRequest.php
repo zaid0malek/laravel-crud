@@ -23,7 +23,6 @@ class StoreUserRequest extends FormRequest
      */
     public function rules(): array
     {
-        dd(app('route')->getCurrentRoute()->getName());
         return app('router')->getCurrentRoute()->getName() == 'updateUser' ? [
             'name' => 'required|regex:/^[a-zA-Z][a-zA-Z\\s]+$/',
             'email' => 'required|email',
