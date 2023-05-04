@@ -14,7 +14,7 @@ class header extends Component
     public $active;
     public function __construct($active)
     {
-        $this->active=$active;
+        $this->active = $active;
     }
 
     /**
